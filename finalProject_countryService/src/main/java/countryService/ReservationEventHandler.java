@@ -39,11 +39,11 @@ import net.minidev.json.JSONObject;
 		public void receive(String in) {
 			try {
 				JsonNode jsonNode = objectMapper.readTree(in);
-				 String country = jsonNode.findValue("cityName2").textValue();
+				 String country = jsonNode.findValue("country").textValue();
 				// Connect to database to get population
 				 Country country1 =  countryRepository.findByCountry(country);
 					
-
+				 if(country1 != null) {
 				
 					String msg  = "{\"Population\": \""+ country1.getPopulation() + 
 			               "\"}" ;
@@ -52,16 +52,29 @@ import net.minidev.json.JSONObject;
 							fanReturnPopulation.getName(), 
 			                "",   // routing key none.
 			                msg);
-				
+				 } else {
+					 System.out.println("Not Found in database"); 
+					 String msg  = "{\"Population\": \""+ "0" + 
+				               "\"}" ;
+						System.out.println("Sending message:"+msg);
+						rabbitTemplate.convertSendAndReceive(
+								fanReturnPopulation.getName(), 
+				                "",   // routing key none.
+				                msg);
+					 
+				 }
 				
 				
 			} catch (JsonMappingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				
 			} catch (JsonProcessingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				System.out.println(e);
 			}
+			
 			
 
 			

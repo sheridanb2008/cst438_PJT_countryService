@@ -41,7 +41,7 @@ import net.minidev.json.JSONObject;
 				JsonNode jsonNode = objectMapper.readTree(in);
 				 String country = jsonNode.findValue("cityName2").textValue();
 				// Connect to database to get population
-				 Country country1 =  countryRepository.findByName(country);
+				 Country country1 =  countryRepository.findByCountry(country);
 					
 
 				

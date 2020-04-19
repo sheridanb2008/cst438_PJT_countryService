@@ -20,7 +20,7 @@ import net.minidev.json.JSONObject;
 
 @RabbitListener(queues = "city-reservation-q1")
 	public class ReservationEventHandler {
-	
+	String msg;
 	@Autowired
     private RabbitTemplate rabbitTemplate;
 	
@@ -45,23 +45,24 @@ import net.minidev.json.JSONObject;
 					
 				 if(country1 != null) {
 				
-					String msg  = "{\"Population\": \""+ country1.getPopulation() + 
+					msg  = "{\"Population\": \""+ country1.getPopulation() + 
 			               "\"}" ;
 					System.out.println("Sending message:"+msg);
 					rabbitTemplate.convertSendAndReceive(
 							fanReturnPopulation.getName(), 
 			                "",   // routing key none.
 			                msg);
+//					
 				 } else {
 					 System.out.println("Not Found in database"); 
-					 String msg  = "{\"Population\": \""+ "0" + 
+					 msg  = "{\"Population\": \""+ "0" + 
 				               "\"}" ;
 						System.out.println("Sending message:"+msg);
 						rabbitTemplate.convertSendAndReceive(
 								fanReturnPopulation.getName(), 
 				                "",   // routing key none.
 				                msg);
-					 
+//						return msg;
 				 }
 				
 				
@@ -76,7 +77,7 @@ import net.minidev.json.JSONObject;
 			}
 			
 			
-
+//			
 			
 			
 			
@@ -84,6 +85,12 @@ import net.minidev.json.JSONObject;
 			
 			
 		}
+		
+		public String getMessage(){
+			return msg;
+		}
+		
+		
 	}
 
 

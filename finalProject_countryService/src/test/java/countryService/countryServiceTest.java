@@ -15,9 +15,6 @@ public class countryServiceTest {
 	private ReservationEventHandler Event;
 
 	
-
-
-	
 	@Test
 	public void countryFound () {
 		
